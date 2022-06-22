@@ -1,0 +1,68 @@
+﻿@page
+@model ContosoCrafts.WebSite.Pages.Product.IndexModel
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Index page";
+}
+<head>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+<div><center><h4>@Model.FormResult</h4></center></div>
+<div class="container">
+    <a asp-page="Create" class="btn btn-primary standard-button">+ Create</a>
+    <select id="CategoryBox" class="form-control" value="">
+        <option value="sort">Sort Product List</option>
+        <option value="/?sort=byName">Order By Name</option>
+        <option value="">Clear</option>
+    </select>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th colspan="3">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.ToolName</td>
+                    <td><a class="link" asp-page="Read" asp-route-id="@product.Id">Read</a></td>
+                    @if (product.QuantityAvailable != 0)
+                    {
+                        <td><a class="link" asp-page="Rent" asp-route-id="@product.Id">Rent</a></td>
+
+                    }
+                    else
+                    {
+                        <td> Not available for rent.</td>
+
+                    }
+
+                    @if (product.Rentals.ToList().Count != 0)
+                    {
+                        <td><a class="link" asp-page="Return" asp-route-id="@product.Id">Return</a></td>
+
+                    }
+                    else
+                    {
+                        <td> None rented right now.</td>
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+        $('#CategoryBox').on('input', function() {
+            var parameter = $('#CategoryBox').val();
+            if (window.location.href.indexOf(parameter) == -1) {
+                 window.location.href = window.location.href.replace(/[\?#].*|$/, parameter);
+            }else{
+                window.location.href = '/Product';
+            }
+        })
+</script>

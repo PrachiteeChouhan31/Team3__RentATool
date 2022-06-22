@@ -1,0 +1,78 @@
+﻿@page
+@using ContosoCrafts.WebSite.Services
+@inject JsonFileProductService ProductService
+@model ContosoCrafts.WebSite.Pages.Product.CreateModel
+<head>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</head>
+@{
+    ViewData["Title"] = "Create page";
+}
+
+<h1>Create</h1>
+
+<div class="container">
+    <label id="formMessage"></label>
+    <form method="post">
+        @Html.HiddenFor(x => x.Product.Id)
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Product.ToolName" class="control-label">Tool Name</label>
+            <input asp-for="Product.ToolName" id="toolName" onclick="ClearText(toolName)" class="form-control" placeholder="Enter Tool Name" required />
+            <span asp-validation-for="Product.ToolName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Product.Description" class="control-label"></label>
+            <input asp-for="Product.Description" id="description" onclick="" class="form-control" placeholder="Enter Description" required />
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Product.Image" class="control-label"></label>
+            <input asp-for="Product.Image" id="image" onclick="" class="form-control" type="url" placeholder="Enter image" required />
+            <span asp-validation-for="Product.Image" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Product.Price" class="control-label">Price (Please enter the Price in format,for e.g, $12.)</label>
+            <input asp-for="Product.Price" id="price" onclick="" class="form-control" placeholder="Enter Price" required />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Product.QuantityAvailable" class="control-label">Quantity Available</label>
+            <input asp-for="Product.QuantityAvailable" id="quality" type="number" min="1" onclick="" class="form-control" required />
+            <span asp-validation-for="Product.QuantityAvailable" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <select id="CategoryBox" onclick="ClearText(CategoryBox)" asp-for="Product.Category" class="form-control" value="" required>
+                <option value="">Select a Category</option>
+                <option value="Home Improvement">Home Improvement</option>
+                <option value="Automotive Care">Automotive Care</option>
+                <option value="Lawn Care">Lawn Care</option>
+                <option value="Outdoor">Outdoor</option>
+            </select>
+            <span asp-validation-for="Product.Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" id="submitButton" onclick="" value="Add" class="btn btn-primary standard-button" />
+            <input type="button" id="cancelButton" onclick="cancel()" value="Cancel" class="btn btn-primary standard-button" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    }
+
+    <script>
+        function cancel() {
+                window.location.href = '/Product';
+        }
+    </script>

@@ -1,0 +1,60 @@
+﻿@page "{id}"
+@using ContosoCrafts.WebSite.Services
+@inject JsonFileProductService ProductService
+@model ContosoCrafts.WebSite.Pages.Product.RentModel
+@{
+    ViewData["Title"] = "Rent page";
+}
+<h1>Rental Form</h1>
+
+@{ 
+    //get the current day with specific format for day pickerB
+    string rentDate = DateTime.Now.ToString("MM/dd/yyyy");
+}
+
+<div class="container">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(x => x.Product.Id)
+
+        <div class="form-group">
+            <label asp-for="RentalInfo.FirstName" class="control-label">First Name:</label>
+            <input type="text" asp-for="RentalInfo.FirstName" name="firstname" class="form-control" />
+            <span asp-validation-for="firstname" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RentalInfo.LastName" class="control-label">Last Name:</label>
+            <input type="text" asp-for="RentalInfo.LastName" name="lastname" class="form-control" />
+            <span asp-validation-for="lastname" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RentalInfo.Email" class="control-label">Email:</label>
+            <input type="email" asp-for="RentalInfo.Email" name="email" class="form-control" />
+            <span asp-validation-for="email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RentalInfo.PhoneNumber" class="control-label">Phone Number(E.g. 555-555-5555):</label>
+            <input type="tel" asp-for="RentalInfo.PhoneNumber" name="phonenumber" class="form-control" />
+            <span asp-validation-for="phonenumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RentalInfo.RentalDate" class="control-label">Rental Date (Please enter in mm/dd/yyyy format):</label>
+            <input id="rent-date" type="datetime" asp-for="RentalInfo.RentalDate" name="rentaldate" class="form-control" value="@rentDate" placeholder="@rentDate" />
+            <span asp-validation-for="rentaldate"  class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Rent" class="btn btn-primary standard-button" />
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    //script to disable user to modify the rental day
+    var input = document.getElementById("rent-date");
+    input.readOnly = true;
+</script>

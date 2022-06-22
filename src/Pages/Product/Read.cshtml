@@ -1,0 +1,92 @@
+﻿@page "{id}"
+@using ContosoCrafts.WebSite.Services
+@inject JsonFileProductService ProductService
+
+@model ContosoCrafts.WebSite.Pages.Product.ReadModel
+@{
+    ViewData["Title"] = "Read page";
+}
+
+<h1>Read</h1>
+
+<div class="content">
+    <h5 class="title" id="productTitle">@Model.Product.ToolName</h5>
+
+    <img class="card-img" src='@Model.Product.Image' alt='Image for @Model.Product.ToolName'>
+
+    <p class="card-text">@Model.Product.Description</p>
+
+</div>
+
+<br />
+<br />
+
+@{
+    if (Model.Product.Rentals.Count() > 0)
+    {
+        <div class="row">
+            <a asp-page="Update" asp-route-id="@Model.Product.Id" class="btn btn-primary standard-button">Update</a> &nbsp; &nbsp;
+
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <a asp-page="Update" asp-route-id="@Model.Product.Id" class="btn btn-primary standard-button">Update</a> &nbsp; &nbsp;
+            <a asp-page="Delete" asp-route-id="@Model.Product.Id" class="btn btn-danger">Delete</a>
+        </div>
+    }
+}
+
+
+<br />
+<br />
+
+<h1>Active Rentals:</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Rental Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rental in Model.Product.Rentals)
+        {
+            <tr>
+                <td>@rental.FirstName.ToUpper()</td>
+                <td>@rental.LastName.ToUpper()</td>
+                <td>@rental.Email</td>
+                <td>@rental.PhoneNumber</td>
+                <td>@rental.RentalDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    // If there are Comments, show them.
+    if (Model.Product.CommentList.Count > 0)
+    {
+        <br />
+        <br />
+
+        <h1>Comments:</h1>
+
+        <table class="table table-bordered table-striped">
+
+            <tbody>
+                @foreach (var comment in Model.Product.CommentList)
+                {
+                    <tr>
+                        <td>@comment.Comment</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
